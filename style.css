@@ -5,7 +5,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(rgba(0, 139, 139, 0.6), rgba(0, 139, 139, 0.6)), url('c:/project_mpp/foto_background.jpg');
+    background: linear-gradient(rgba(0, 139, 139, 0.6), rgba(0, 139, 139, 0.6)), url('C:/project_mpp/foto_background.jpg');
     background-size: cover;
     background-position: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -103,3 +103,4 @@ button:hover {
     transition: all 0.5s ease-in-out;
 
 }
+
