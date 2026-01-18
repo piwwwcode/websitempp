@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Berhasil</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="lamannotifikasi" href="notifikasi.html">
+    <link rel="lamanlogin" href="index.html">
+    <link rel="pengumpulantugas" href="tugas_murid.html">
+    <link rel="pengumpulantugas" href="tugas_guru.html">
+    </head>
+<body>
+    <div class="container">
+        <div class="login-card" style="text-align: center;">
+            <h2 id="msgStatus">Mengecek Akses...</h2>
+            <p>Mohon tunggu sebentar...</p>
+            <div class="loader"></div> </div>
+    </div>
+
+<script>
+    // 1. Ambil data role
+    const role = sessionStorage.getItem('userRole');
+    const msgStatus = document.getElementById('msgStatus');
+
+    // 2. Cek Logika Perpindahan
+    if (role === 'siswa') {
+        msgStatus.innerHTML = "✅ LOGIN BERHASIL SEBAGAI SISWA";
+        msgStatus.style.color = "#3498db";
+        // Pastikan nama filenya 'tugas_murid.html' sesuai file yang kamu buat tadi
+        setTimeout(() => { 
+            window.location.href = "tugas_murid.html"; 
+        }, 2000);
+
+    } else if (role === 'guru') {
+        msgStatus.innerHTML = "✅ LOGIN BERHASIL SEBAGAI GURU";
+        msgStatus.style.color = "#2ecc71";
+        // Pastikan kamu sudah buat file 'tugas_guru.html'
+        setTimeout(() => { 
+            window.location.href = "tugas_guru.html"; 
+        }, 2000);
+
+    } else {
+        // Jika nyasar ke sini tanpa login, balikkan ke login
+        alert("Akses ditolak! Silahkan login kembali.");
+        window.location.href = "index.html";
+    }
+</script>
+</body>
+</html>
