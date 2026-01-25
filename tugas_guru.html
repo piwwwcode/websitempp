@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Halaman Guru</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+    <script>
+      // 2. CONFIGURASI FIREBASE LU
+      const firebaseConfig = {
+  apiKey: "AIzaSyAzx45BGMkFzkZNi8qMYqdW9pJ51zqb16A",
+  authDomain: "pengumpulantugas-de3df.firebaseapp.com",
+  projectId: "pengumpulantugas-de3df",
+  storageBucket: "pengumpulantugas-de3df.firebasestorage.app",
+  messagingSenderId: "180956417489",
+  appId: "1:180956417489:web:919107bbf625eee64564f0",
+  measurementId: "G-LZXW5ZYZBV",
+  
+  // GANTI BARIS INI DENGAN ALAMAT YANG BARU:
+  databaseURL: "https://pengumpulantugas-de3df-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
+
+      // 3. INISIALISASI
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.database(); 
+    </script>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="lamannotifikasi" href="notifikasi.html">
+    <link rel="lamanlogin" href="index.html">
+    <link rel="pengumpulantugas" href="tugas_murid.html">
+    <link rel="pengumpulantugas" href="tugas_guru.html">
+</head>
+<body>
+    <div class="container">
+        <div class="login-card">
+            <h2>Halaman Pemberian Tugas (Guru)</h2>
+            
+            <input type="text" id="tugasGuru" placeholder="Ketik Tugas Baru Untuk Siswa">
+            <button type="button" onclick="buat()">Posting Tugas</button>
+
+            <hr>
+            <h4>Daftar Tugas yang Masuk dari Siswa:</h4>
+            <ul id="listTugasSiswa" style="list-style: none; padding: 0; text-align: left;"></ul>
+            
+            <br>
+            <a href="index.html" style="color: red;">Logout</a>
+        </div>
+    </div>
+
+    <script>
+        function buat() {
+            const input = document.getElementById('tugasGuru');
+            const info = input.value;
+            
+            if(info === "") return alert("Isi dulu!");
+
+            // KIRIM KE CLOUD
+            db.ref('tugasDariGuru').push({
+                pesan: info,
+                waktu: Date.now()
+            }).then(() => {
+                alert("Berhasil diposting ke Cloud!");
+                input.value = "";
+            }).catch(err => {
+                alert("Gagal! Cek apakah Rules sudah di-Publish ke TRUE?");
+                console.error(err);
+            });
+        }
+
+        // AMBIL DATA DARI SISWA (Realtime)
+        db.ref('tugasSiswa').on('value', (snapshot) => {
+            const data = snapshot.val();
+            const container = document.getElementById('listTugasSiswa');
+            container.innerHTML = ""; 
+            
+            if (data) {
+                for (let id in data) {
+                    container.innerHTML += `<li style="background:#e3f2fd; padding:10px; margin-bottom:5px; border-radius:5px;">📩 Siswa: ${data[id].tugas}</li>`;
+                }
+            } else {
+                container.innerHTML = "<li>Belum ada tugas masuk.</li>";
+            }
+        });
+    </script>
+</body>
+</html>
